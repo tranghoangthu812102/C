@@ -1,0 +1,143 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct
+{
+  char name[30];
+ 
+}elmType;
+
+typedef struct Node
+{
+  elmType data;
+  struct Node *Left ;
+  struct Node *Right;
+}Node;
+
+void Init(Node **T)
+{
+  *T = NULL;
+}
+
+Node *makeNode(elmType x)
+{
+  Node *P =(Node *)malloc(sizeof(Node));
+  P->data = x;
+  P->Left = P->Right = NULL;
+  return P;
+}
+
+Node *Search(Node *T,elmType  x)
+{
+  if(T!=NULL)
+    {
+      if(strcmp(T->data.name ,x.name) == 0)
+	return T;
+      if(strcmp(T->data.name ,x.name) > 0)
+	return Search(T->Left,x);
+      if(strcmp(T->data.name ,x.name) < 0)
+	return Search(T->Right,x);
+    }
+  return NULL;
+}
+int STT= 1;
+void NLR(Node *T)
+{
+  if(T!=NULL)
+    {
+      
+      NLR(T->Left);
+      printf("%-4d%-25s\n",STT,T->data.name);
+      STT++;
+      NLR(T->Right);
+      
+    }
+}
+void freeTree(Node *T)
+{
+  if(T!= NULL)
+    {
+      freeTree(T->Left);
+      freeTree(T->Right);
+      free(T);
+    }
+}
+
+void insertNode(Node **T,elmType x )
+{
+  if(*T !=NULL)
+    {
+      if(strcmp( (*T)->data.name ,x.name) == 0)//Node nay da co
+	      printf("du lieu them vao bi trung \n");
+      if(strcmp((*T)->data.name ,x.name) > 0)
+	insertNode(&(*T)->Left ,x);//chen trai
+      else if (strcmp((*T)->data.name ,x.name) < 0 )
+	insertNode(&(*T)->Right,x);//chen phai
+    }
+  else
+      *T = makeNode(x);
+      
+}
+void inPut(Node **T)
+{
+  FILE *file;
+  if((file = fopen("danhsachlop1.txt","r")) == NULL)
+    {
+      printf("Khong the mo file %s\n","danhsachlop1.txt");
+      exit(0);
+    }
+    elmType *data=(elmType*) malloc(sizeof(elmType));
+    while(1)
+    {
+      fscanf(file,"%s ", data->name);
+      //nhap tu file
+      if(feof(file))
+	break;
+      insertNode(T,*data);
+     }
+    free(data);
+    fclose(file);
+  
+}
+int main()
+{
+     Node *T;
+     Init(&T);
+     inPut(&T);
+     int lua_chon;
+      elmType *data=(elmType*) malloc(sizeof(elmType));
+      do
+       {
+	 printf("========================\n");
+	 printf("1.Hien Thi danh sach\n");
+	 printf("2.Tim Kiem\n");
+	 printf("0.Thoat\n");
+	 printf("~~~~~~~~~~~~~~~~~~~~~~\n");
+	 printf("Chon : ");
+	 scanf("%d",&lua_chon);
+	 if(lua_chon == 1)
+	   {  
+	     printf("%-4s%-25s\n","STT","HO VA TEN");
+	     NLR(T);
+	   }
+	 if(lua_chon == 2)
+	   {
+	     printf("Nhap ten sinh vien  can tim kiem " );
+	     scanf("%s",data->name);
+	     Node *P=Search(T,*data);
+             if(P == NULL)
+	       printf("Ten %s khong ton tai\n",data->name);
+	     else
+                printf("%-25s\n","name");
+	        printf("%-25s\n",P->data.name);
+	   }
+	 if(lua_chon == 0)
+	   {
+	     printf("Ket thuc chuong trinh\n");
+	     return 0;
+	   }
+       }while(lua_chon!=0);
+     
+     freeTree(T);  
+}

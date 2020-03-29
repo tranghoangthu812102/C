@@ -1,0 +1,17 @@
+  MSSV                   HOTEN     SDT
+  20176891               ngocanh   0978079145    
+  20176892               minhanh   0163565456 
+  20176893               hoangmy   0125643789	
+  20176894               minhhieu  0135624786	
+  20176895               myduyen   0145789623	
+  20176896               thunhung  0123456789    
+  20176897               quynhanh  0123475869    
+  20176899               hongthao  0145623798    
+  20176900               trungthu  0147258369    
+  20176901               phamthanh 0978456123    
+  20176902               ngoctrinh 0147852369    
+  20176903               huongtram 0156478923    
+  20176904               haanhtuan 0369258147    
+  20176905               hongocha  0125346987    
+  20176906               manhquynh 0169324578    
+ 

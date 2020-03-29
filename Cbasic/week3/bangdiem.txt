@@ -1,0 +1,4 @@
+STT  MSSV       HO TEN               SDT             DIEM
+1    20171234   HoKhanhDuong         0147258369      10.00
+2    20172345   HoangThuTrang        0369258147      10.00
+3    20173456   ChuMinhAnh           0147852963      10.00

@@ -1,0 +1,77 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h> 
+
+#define MAX_LEN 81
+
+typedef struct
+{
+  char name[30];
+  char tel[11];
+  char mail[50];
+}phone;
+
+void swap(phone *a,phone *b)
+{
+  phone c = *a;
+  *a = *b;
+  *b = c;
+}
+
+int sosanh(phone a , phone b)
+{
+  int i;
+  i = strlen(a.name) <= strlen(b.name)?strlen(a.name):strlen(b.name);
+  for(int j = 0; j< i ; j++)
+    {
+      if(a.name[i]<b.name[j])
+          return 1;
+      if(a.name[i] > b.name[j])
+          return 0;
+    }
+  if(i == strlen(a.name))
+    return 1;
+  return 0;
+}
+
+void heapify(phone a[] , int n,int i)
+{
+  int largest;
+ 
+  // for(i = n/2 ; i >=0 ; i-- )
+  // {
+      largest = i ;
+      if(sosanh(a[largest],a[2*i]) == 1 )
+	largest = 2*i;
+      if(sosanh(a[largest],a[2*i+1]) == 1 )
+	largest = 2*i+1;
+      if(largest != i)
+	{
+	   swap(&a[i],&a[largest]);
+           heapify(a,n,largest);
+	}
+      //}
+}
+void heapSort(phone a[],int n)
+{
+      for(int i = n/2 -1 ; i>= 0 ; i--)
+	heapify(a,n,i);
+      for(int i = n-1 ; i>= 0 ; i-- )
+	{
+	  swap(&a[0],&a[i]);
+           heapify(a,n,0);
+	}
+ }
+
+int main()
+{
+  phone a[10];
+  FILE *file;
+  file = fopen("phone.dat","rb");
+  fread(a,sizeof(phone),10,file);
+  heapSort(a,9);
+  for(int i = 0; i <10 ; i++ )
+    printf("%-15s %-10s %s\n",a[i].name,a[i].tel,a[i].mail);
+    
+}

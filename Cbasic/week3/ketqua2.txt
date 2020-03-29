@@ -1,0 +1,18 @@
+ket qua : 
+a xuat hien 4 lan 
+ c xuat hien 1 lan 
+ d xuat hien 2 lan 
+ e xuat hien 1 lan 
+ g xuat hien 3 lan 
+ h xuat hien 9 lan 
+ i xuat hien 1 lan 
+ k xuat hien 1 lan 
+ m xuat hien 2 lan 
+ n xuat hien 7 lan 
+ o xuat hien 4 lan 
+ r xuat hien 1 lan 
+ s xuat hien 4 lan 
+ t xuat hien 6 lan 
+ u xuat hien 3 lan 
+ v xuat hien 1 lan 
+ 

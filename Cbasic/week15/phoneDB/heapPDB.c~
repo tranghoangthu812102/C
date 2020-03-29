@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h> 
+
+#define MAX 81
+typedef struct
+{
+  char model[20];
+  char rom[20];
+  char inch[20];
+  char tien[20];
+}phone;
+
+void swap(phone *a,phone *b)
+{
+  phone c = *a;
+  *a = *b;
+  *b = c;
+}
+
+int sosanh(phone a , phone b)
+{
+  int i;
+  i = strlen(a.model) <= strlen(b.model)?strlen(a.model):strlen(b.model);
+  for(int j = 0; j< i ; j++)
+    {
+      if(a.model[i]<b.model[j])
+          return 1;
+      if(a.model[i] > b.model[j])
+          return 0;
+    }
+  if(i == strlen(a.model))
+    return 1;
+  return 0;
+}
+
+void heapify(phone a[] , int n)
+{
+  int largest, i;
+  for(i = n/2 ; i >=0 ; i-- )
+    {
+      largest = i ;
+      if(sosanh(a[largest],a[2*i]) == 1 )
+	largest = 2*i;
+      if(sosanh(a[largest],a[2*i+1]) == 1 )
+	largest = 2*i+1;
+      if(largest != i)
+	{
+	swap(&a[largest],&a[i]);
+	heapify(a,n);
+	}
+    }
+}
+
+void heapSort(phone a[],int n)
+{
+  if(n>0)
+    {
+      heapify(a,n-1);
+      swap(&a[0],&a[n]);
+      heapSort(a,n-1);
+    }
+}
+
+int main()
+{
+  phone a[27];
+  FILE *file;
+  file = fopen("phoneDB.dat","rb");
+  fread(a,sizeof(phone),27,file);
+  heapSort(a,9);
+  for(int i = 0; i <27; i++ )
+    printf("%-20s %-5s %-5s %-10s\n",a[i].model,a[i].rom,a[i].inch,a[i].tien);
+    
+}

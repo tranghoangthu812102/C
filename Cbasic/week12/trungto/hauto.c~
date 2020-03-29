@@ -1,0 +1,160 @@
+#include "stack1.h"
+#include <string.h>
+#include <ctype.h>
+#define MAX 100
+/*1.Thứ tự ưu tiên */
+int uutien(item x)
+{
+    if(x == '(')
+        return 0;
+    if(x == '+'|| x == '-')
+        return 1;
+    if(x == '*' || x == '/' || x == '%')
+        return 2;
+    return 3;
+}
+
+/*10.Chuyển từ trung tố sang hậu tố */
+void chuyen(char in[], char post[])
+{   Stack S ;                             
+    item x, token ;
+    int i , j=0; // i- chỉ số của infix , j- chỉ số của postfix
+    Init(&S);
+    for(i=0;in[i] != '\0';i++)
+    {
+        token = in[i];
+        if(isalnum(token))
+	  // isalnum :ký tự đã truyền có phải là ký tự - số hay không.
+            post[j++] = token;
+        else
+            if(token == '(')
+               Push(&S,'(');
+            else
+                if(token == ')')
+                  while ((x = Pop(&S) )!= '(')
+                         post[j++] = x;
+                else
+                {
+         while (uutien(token)<= uutien(Peak(S)) && !Isempty(&S))
+                    {
+                        x = Pop(&S);
+                        post[j++] = x;
+                    }
+                    Push(&S,token);
+                }
+    }
+    while (!Isempty(&S))
+    {
+        x = Pop(&S);
+        post[j++] = x;
+    }
+    post[j] = '\0';
+}
+
+/*11.Tinh gia tri bieu thuc hau to*/
+/*
+float Evaluate(char postfix[])
+{
+    char *P;
+    float op1 , op2 , result;
+  
+    P = postfix[0];
+    while(*P != '\0')
+    {
+        while(*P == ' '|| *P == '\t')
+        {
+            P++;
+        }
+        if(isdigit(*P))
+ // isdigit : kiểm tra xem ký tự đã truyền có phải là chữ số thập phân không(0 1 2 3 4 5 6 7 8 9).
+        {
+            int num =0 ;
+            while(isdigit(*P))
+            {
+	      num = num * 10 + (*P) - 48;
+            }
+            Push(S,num);
+        }
+        else
+        {
+            op1 = Pop(S);
+            op2 = Pop(S);
+            switch(*P)
+            {
+            case '+':
+                result = op2 + op1;
+                break;
+            case '-':
+                result = op2 - op1 ;
+                break;
+            case '/':
+                result = op2 / op1 ;
+                break;
+            case '*':
+                result = op2 * op1 ;
+                break;
+            default :
+                printf("\nInvalid Operator");
+                return 0;
+            }
+            Push(S,result);
+
+        }
+        P++;
+    }
+    result = Pop(S);
+    return result;
+    }*/
+int Tinh(item post[])
+{
+  Stack S;
+  item  x;
+  int op1, op2;
+  int val;
+  Init(&S);
+   while((x=getchar())!='\n')
+    {
+      if(isdigit(x))
+	Push(&S,x-48);
+      else
+	{
+	  op2=Pop(&S);
+	  op1=Pop(&S);
+          switch(x)
+	    {
+	    case '+' :
+	      val = (op1+op2);
+	      break;
+	    case '-':
+	      val = (op1-op2);
+	      break;
+	    case '*':
+	      val = (op1*op2);
+	      break;
+	     case '/':
+	      val = (op1/op2);
+	      break;
+	     case '%':
+	      val = (op1%op2);
+	      break;
+	      
+	    }
+	  Push(&S,val);
+		  
+	}
+    }
+  val = Pop(&S);
+}
+
+int main()
+{       
+	char A[MAX], B[MAX];
+	printf("Infix : ");
+	gets(A);
+	chuyen(A, B);
+
+	printf("Postfix: %s\n", B);
+	printf("Equals is %d\n", Tinh(B[0]));
+	  gets(A);
+	return 0;
+}

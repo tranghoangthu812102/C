@@ -1,0 +1,6 @@
+google.com 172.217.9.238
+gmail.com 172.217.7.5
+facebook.com 157.240.14.35
+...
+
+

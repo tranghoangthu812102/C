@@ -1,0 +1,148 @@
+#include "BST.h"
+elmType *nhapTuBanPhim(elmType *data)
+{
+  printf("Ten dien thoai: ");
+  scanf("%s", data->model);
+  printf("Dung luong: ");
+  scanf("%s", data->rom);
+  printf("Kich co man hinh: ");
+  scanf("%s", data->inch);
+  printf("Gia tien: ");
+  scanf("%s", data->tien);
+  return data;
+}
+//Khởi tạo Tree
+void Init(Node **T)
+{
+  *T = NULL;
+}
+int compare(elmType x, elmType y)
+ { 
+    return strcmp(x.model, y.model);
+}
+//Tao Node
+Node *makeNode(elmType x)
+{
+  Node *P =(Node *)malloc(sizeof(Node));
+  P->Data = x;
+  P->Left = P->Right = NULL;
+  return P;
+}
+
+//Thêm phần tử X vào cây
+void insertNode(Node **T,elmType x )
+{
+  
+  if(*T !=NULL)
+    {
+      if(strcmp( (*T)->Data.model ,x.model) == 0)//Node nay da co
+	      printf("Phan tu them vao bi trung \n");
+	     
+      if(strcmp((*T)->Data.model ,x.model) > 0)
+	insertNode(&(*T)->Left ,x);//chen trai
+      else if (strcmp((*T)->Data.model ,x.model) < 0 )
+	insertNode(&(*T)->Right,x);//chen phai
+    }
+  else
+      *T = makeNode(x);
+      
+}
+// xuất cây nhị phân
+void outPut(Node *T)
+{
+  printf("%-15s %-15s %-15s %s\n",
+	 "Model","dungluongbonho","kichthuocmanhinh","giatien");
+  printf("%-15s %-15s %-15s %s\n",
+	     T->Data.model,T->Data.rom,T->Data.inch,T->Data.tien);
+}
+void NLR(Node *T)
+{
+  if(T!=NULL)
+    {
+      outPut(T->Data);
+      NLR(T->Left);
+      NLR(T->Right);
+    }
+}
+
+/*Tim mot node co data =x */
+Node *Search(Node *T,char x[])
+{
+  if(T!=NULL)
+    {
+      if(strcmp(T->Data.model ,x) == 0)
+	return T;
+      if(strcmp(T->Data.model ,x) > 0)
+	return Search(T->Left,x);
+      if(strcmp(T->Data.model ,x) < 0)
+	return Search(T->Right,x);
+    }
+  return NULL;
+}
+//Tim node the mang
+void Tim_Node_The_Mang(Node **X, Node **Y)
+{
+    if((*Y)->Left !=NULL)
+        Tim_Node_The_Mang(X, &(*Y)->Left);
+    else
+    {
+        (*X)->Data = (*Y)-> Data;
+	 *X = *Y; 
+         *Y = (*Y)->Right; 
+    }
+}
+//Xoa mot Node bat ki trong cay nhi phan
+int Del_Node(Node **T,elmType data)
+{
+    if(*T == NULL)
+        return 0; 
+    else
+    {
+        if(compare((*T)->Data,data) > 0 )
+           return Del_Node(&(*T)->Left,data);
+        else if (compare((*T)->Data,data) < 0)
+          return  Del_Node(&(*T)->Right,data);
+        else 
+        {
+            Node *X = *T ; 
+            if((*T)->Left == NULL)
+              *T = (*T)->Right;
+
+            else if((*T)-> Right == NULL)
+              *T = (*T)->Left;
+            else
+            {
+               Tim_Node_The_Mang(&X,&(*T)->Right);
+            }
+            free(X);
+        }
+     }
+    return 1;
+}
+
+
+/*void saveFileDat()
+{
+  FILE *f1;
+ if ((f1 = fopen("phoneDB.dat", "w+b ")) == NULL)
+    {
+      printf("Khong the mo %s\n", "phoneDB.dat");
+      return; 
+    }
+ for (Node *P = head; P != NULL; P = P->next)
+    {
+      fwrite(P, sizeof(DB), 1, f1);
+    }
+ fclose(f1);
+}*/
+void freeTree(Node *T)
+{
+  if(T!= NULL)
+    {
+      freeTree(T->Left);
+      freeTree(T->Right);
+      free(T);
+    }
+}
+
+   

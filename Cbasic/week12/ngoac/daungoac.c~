@@ -1,0 +1,68 @@
+#include "stack.h"
+#include <string.h>
+#define bool int
+char c[100];
+void Print(Stack *S)
+{
+   if(Isempty(S))
+    {
+     printf("Stack is empty\n");
+     return;
+    }
+   struct Node *temp = S->Top ;
+   printf("\nThe current stack is: ");
+   while(temp != NULL)
+   {
+   printf(" %c",temp->Data);
+   temp = temp->Next ;
+   }
+   printf("\n");
+}
+
+bool ghep( char c1 , char c2)
+{
+  if(c1 == '(' && c2 == ')')
+    return 1;
+  else if( c1 == '{' && c2 == '}')
+    return 1;
+  else if (c1 == '[' && c2 == ']')
+    return 1;
+  else
+    return 0;
+}
+bool  check(char c[],int len,Stack *S)
+{
+    for(int i=0;i<len;i++)
+    {
+        if((c[i]!='(')||(c[i] != '{')||(c[i]!='['))
+	  Push(S,c[i]);
+            
+        if(c[i] == '}' || c[i] == ')' || c[i] == ']')
+	  {
+	    if ( S->Top == NULL)
+	      return 0;
+            else if (!ghep(Pop(S),c[i]))
+	      return 0;             
+          }
+      }
+     if(S->Top==NULL) return 1;
+     else return 0;
+}
+int main()
+{
+   Stack *S =(Stack *)malloc(sizeof(Stack));
+   Init(S);
+   int len;
+   printf("Enter a string of paranthesis: ");
+   scanf("%s%*c",&c);
+   printf("%s",c);
+   len = strlen(c);
+   if(check(c,len,S)==0)
+     /*printf("Balanced \n"); 
+  else
+    printf("Not Balanced \n");   
+    return 0; */
+   Print(S);
+Pop(S);Print(S);Pop(S);Print(S);
+Push(3);Push(4);Push(1);Push(7);Print(S);Pop(S);Print(S);Pop(S);Print(S);
+}
